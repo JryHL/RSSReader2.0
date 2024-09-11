@@ -7,10 +7,8 @@ from models.feed import Source, Story
 allStories = []
 
 def addSource(url, name):
-    global lastFetchTime
     s = Source(-1, url, name)
     persistence.addSource(s)
-    fetchStories(s)
     return s
 
 def delSource(id):

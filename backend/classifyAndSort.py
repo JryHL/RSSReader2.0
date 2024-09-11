@@ -7,7 +7,7 @@ from sklearn.decomposition import PCA
 def generateCategoryName(stories: list[Story]):
     sentences = []
     for s in stories:
-        sentences.append(s.title)
+        sentences.append(f"{s.title} {s.summary}")
     return encodeSentence.findClosestCategory(sentences)
 
 def classifyStories(stories: list[Story]):
