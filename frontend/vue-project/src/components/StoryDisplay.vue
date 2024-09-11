@@ -1,10 +1,12 @@
 
 <template>
     <div :class="`storyCard ${smallClass}`">
-        <a :href="story.url" target="_blank"><h2>{{ story.title }}</h2></a>
-        <div class="emphasis">{{ story.source }}</div>
-        <div>{{ story.date }}</div>
-        <div class="summary">{{story.summary}}</div>
+        <a :href="story.url" target="_blank"  class="story-title"><h2>{{ story.title }}</h2></a>
+        <div class="details">
+            <div class="emphasis">{{ story.source }}</div>
+            <div>{{ story.date }}</div>
+            <div class="summary">{{story.summary}}</div>
+        </div>
     </div>
 </template>
 
@@ -31,6 +33,15 @@
     border-color: var(--gray-color);
     border-style: solid;
     padding: 1em;
+
+    .story-title {
+        color: var(--dark-color);
+        text-decoration: none;
+    }
+
+    .story-title:hover {
+        color: var(--dark-gray-color);
+    }
 }
 
 
@@ -41,8 +52,24 @@
 }
 
 .small {
-    background-color: var(--gray-color);
     font-size: 0.8em;
+    padding-bottom: 0em;
+    padding-top: 0em;
+    border-style: none;
+
+
+    .summary {
+        display: none;
+    }
+    .details {
+        display: flex;
+        column-gap: 0.5em;
+    }
+
+    .story-title h2 {
+        margin-top: 0.4em;
+        margin-bottom: 0.2em;
+    }
 }
 
 </style>
