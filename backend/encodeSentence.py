@@ -18,7 +18,7 @@ def findClosestCategory(sentences: list[str]) -> str:
             return "Empty category"
         categoryEmbeddings = model.encode(CATEGORIES)
         # Use only first few sentences to avoid excess strain
-        sentenceEmbeddings = model.encode(sentences[0:10])
+        sentenceEmbeddings = model.encode(sentences[0:5])
         similarities = model.similarity(sentenceEmbeddings, categoryEmbeddings)
         maxSimilarities = np.argmax(similarities, axis=1)
         mostCommonCategoryIdx = stats.mode(maxSimilarities).mode
