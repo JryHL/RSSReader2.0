@@ -4,15 +4,16 @@ import { getSources, addSource } from '@/api/api';
 </script>
 <template>
     <main>
-        <h2>Your Sources</h2>
-        <div>
-            <SourceDisplay v-for="s in sources" :key="s.id" :source="s" @delete-source="refresh"/>
-        </div>
         <h2>Add source</h2>
 
         <input type="text" placeholder="Source name" v-model="addSourceName"/>
         <input type="url" placeholder="Source URL" v-model="addSourceURL"/>
         <button @click="addSourceToBackend" >Add</button>
+        <h2>Your Sources</h2>
+        <div>
+            <SourceDisplay v-for="s in sources.slice().reverse()" :key="s.id" :source="s" @delete-source="refresh"/>
+        </div>
+
 
     </main>
 </template>

@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <h2>{{ source.name }}</h2>
+        <h3>{{ source.name }}</h3>
         <div>{{ source.url }}</div>
         <button @click="deleteSource">Delete</button>
     </div>

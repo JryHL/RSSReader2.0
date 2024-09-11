@@ -33,10 +33,6 @@
     padding: 1em;
 }
 
-.small.storyCard {
-    background-color: var(--gray-color);
-    
-}
 
 .summary {
     text-wrap:nowrap;
@@ -45,11 +41,8 @@
 }
 
 .small {
-        img{
-    
-        display: none;
-    }
-    
+    background-color: var(--gray-color);
+    font-size: 0.8em;
 }
 
 </style>

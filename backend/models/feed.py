@@ -1,18 +1,36 @@
 import feedparser
 from bs4 import BeautifulSoup
+import datetime
 import time
 
 FETCH_INTERVAL_MINUTES = 10
+RECENCY_WEIGHT = 0.1
 lastStoryID = 0
 
 class Story:
-    def __init__(self, id, url, title, date, summary, source):
+    
+    @staticmethod
+    def selfRank(timetuple):
+        rank = 0
+        
+        # Get number of seconds since publishing
+        pubTime = time.mktime(timetuple)
+        currTime = time.time()
+        timeDiff = max(currTime - pubTime, 0)
+        # Convert to number of hours
+        hoursDiff = timeDiff / 3600
+        rank -= hoursDiff * RECENCY_WEIGHT
+        
+        return rank
+    
+    def __init__(self, id, url, title, date, timetuple, summary, source):
         self.id = id
         self.url = url
         self.title = title
         self.summary = summary
         self.date = date
-        self.rank = 0
+        self.timetuple = timetuple
+        self.rank = self.selfRank(timetuple)
         self.source = source
 
 
@@ -43,7 +61,8 @@ class Source:
                 soup = BeautifulSoup(summaryHTML, "html.parser")
                 summary = soup.text
                 date = getattr(e, "published", "")
-                s = Story(lastStoryID, url, title, date, summary, self)
+                timetuple = getattr(e, "published_published", datetime.datetime.today().timetuple())
+                s = Story(lastStoryID, url, title, date, timetuple, summary, self)
                 self.stories.append(s)
         return self.stories
                 

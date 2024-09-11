@@ -42,4 +42,9 @@ def classifyStories(stories: list[Story]):
             categories[label].append(story)
         else:
             categories[label] = [story]
+    
+    # Rank stories
+    for c in categories.values():
+        c.sort(key=(lambda x: x.rank), reverse=True)
+    
     return categories.items()

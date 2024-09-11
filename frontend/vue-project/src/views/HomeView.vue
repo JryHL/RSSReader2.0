@@ -42,6 +42,7 @@ export default {
   grid-template-columns: repeat(auto-fill, 20em);
   gap: 0.5em;
   overflow: auto;
+  height: 300px;
   margin-bottom: 0.5em;
 }
 </style>
