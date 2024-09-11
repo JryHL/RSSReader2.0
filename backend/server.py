@@ -3,6 +3,7 @@ from flask_cors import CORS
 from models.feed import Source, Story
 import controller
 import persistence
+import urllib
 app = Flask(__name__)
 CORS(app)
 
@@ -15,6 +16,8 @@ def source_to_json(s: Source):
     }
 
 def story_to_json(st: Story):
+    parsedURL = urllib.parse.urlparse(st.source.url)
+    baseURL = f"{parsedURL.scheme}://{parsedURL.netloc}"
     return {
         "id": st.id,
         "url": st.url,
@@ -22,7 +25,8 @@ def story_to_json(st: Story):
         "date": st.date,
         "rank": st.rank,
         "summary": st.summary,
-        "source": st.source.name
+        "source": st.source.name,
+        "base_domain": baseURL
     }
 
 @app.post("/sources")

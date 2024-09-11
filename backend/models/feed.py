@@ -23,13 +23,14 @@ class Story:
         
         return rank
     
-    def __init__(self, id, url, title, date, timetuple, summary, source):
+    def __init__(self, id, url, title, timetuple, summary, source):
         self.id = id
         self.url = url
         self.title = title
         self.summary = summary
-        self.date = date
+       
         self.timetuple = timetuple
+        self.date = time.strftime("%a. %b. %-d, %Y at %I:%M %p", timetuple)
         self.rank = self.selfRank(timetuple)
         self.source = source
 
@@ -60,9 +61,8 @@ class Source:
                 summaryHTML = getattr(e, "description", "")
                 soup = BeautifulSoup(summaryHTML, "html.parser")
                 summary = soup.text
-                date = getattr(e, "published", "")
                 timetuple = getattr(e, "published_published", datetime.datetime.today().timetuple())
-                s = Story(lastStoryID, url, title, date, timetuple, summary, self)
+                s = Story(lastStoryID, url, title, timetuple, summary, self)
                 self.stories.append(s)
         return self.stories
                 

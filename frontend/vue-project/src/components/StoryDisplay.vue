@@ -1,8 +1,9 @@
 
 <template>
-    <div :class="`storyCard ${smallClass}`">
+    <div :class="`story-box ${smallClass}`">
         <a :href="story.url" target="_blank"  class="story-title"><h2>{{ story.title }}</h2></a>
         <div class="details">
+            <img class="story-favicon" :src="`https://www.google.com/s2/favicons?domain=${story?.base_domain}`"/>
             <div class="emphasis">{{ story.source }}</div>
             <div>{{ story.date }}</div>
             <div class="summary">{{story.summary}}</div>
@@ -25,8 +26,8 @@
     }
 </script>
 
-<style scoped>
-.storyCard {
+<style>
+.story-box {
     display: flex;
     flex-direction: column;
     border-width: 1px;
@@ -39,9 +40,14 @@
         text-decoration: none;
     }
 
+    .story-favicon {
+        width: 1em;
+    }
+
     .story-title:hover {
         color: var(--dark-gray-color);
     }
+
 }
 
 
