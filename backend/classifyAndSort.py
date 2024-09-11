@@ -18,10 +18,23 @@ def classifyStories(stories: list[Story]):
         embedding = encodeSentence.sentenceToEmbedding(f"{s.title} {s.summary}")
         embeddings.append(embedding)
     
-    pca = PCA(n_components=5)
+    pca = PCA(n_components=2)
     reduced_embeddings = pca.fit_transform(embeddings)
-    kmeans = KMeans(n_clusters=max(math.floor(len(reduced_embeddings)/5), 1))
-    labels = kmeans.fit(reduced_embeddings).labels_
+    kmeans = None
+    
+    # Approximation of elbow method
+    # Detect when change from last inertia is below certain threshold
+    lastInertia = -1
+    for i in range(1, len(reduced_embeddings)): 
+        kmeans = KMeans(n_clusters=i)
+        kmeans.fit(reduced_embeddings)
+        print(kmeans.inertia_)
+        if i > 1:
+            if kmeans.inertia_ > lastInertia * 0.95:
+                break
+        lastInertia = kmeans.inertia_
+    #kmeans = KMeans(n_clusters=max(math.floor(len(reduced_embeddings)/10), 1), init="k-means++", algorithm="elkan", n_init=2)
+    labels = kmeans.labels_
 
     categories = {}
     for story, label in zip(stories, labels):
