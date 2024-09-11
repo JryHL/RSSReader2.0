@@ -1,11 +1,10 @@
 import persistence
 import time
 import classifyAndSort
+import threading
 from models.feed import Source, Story
 
 allStories = []
-lastFetchTime = 0
-MINUTES_BETWEEN_FETCH = 10
 
 def addSource(url, name):
     global lastFetchTime
@@ -29,19 +28,17 @@ def delSource(id):
 
 def getAllStories():
     global allStories
-    global lastFetchTime
-    currentTime = time.time()
-    if currentTime - lastFetchTime < MINUTES_BETWEEN_FETCH * 60:
-        print(f"Time difference {currentTime - lastFetchTime} seconds, did not refetch")
-        return
-    lastFetchTime = currentTime
-
     allStories = []
+    threadsUsed = []
     for idx, s in enumerate(persistence.sourceList):
-        print(f"Fetching {s.name} ({idx + 1}/{len(persistence.sourceList)})")
-        fetchStories(s)
+        t = threading.Thread(target=fetchStories, args=[s])
+        t.start()
+        threadsUsed.append(t)
+    for t in threadsUsed:
+        t.join()
 
 def fetchStories(s: Source):
+    print(f"Fetching {s.name} in thread {threading.get_ident()}")
     stories = s.fetch()
     allStories.extend(stories)
 

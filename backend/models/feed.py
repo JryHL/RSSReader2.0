@@ -1,5 +1,8 @@
 import feedparser
 from bs4 import BeautifulSoup
+import time
+
+FETCH_INTERVAL_MINUTES = 10
 lastStoryID = 0
 
 class Story:
@@ -19,8 +22,15 @@ class Source:
         self.url = url
         self.name = name
         self.stories = []
+        self.lastFetchTime = 0
     def fetch(self):
         global lastStoryID
+        currTime = time.time()
+        if (currTime - self.lastFetchTime < FETCH_INTERVAL_MINUTES * 60):
+            print(f"{self.name} was not fetched because it last fetched {(currTime - self.lastFetchTime) / 60} minutes ago")
+            return self.stories
+        self.lastFetchTime = currTime
+        
         self.stories = []
         feed = feedparser.parse(self.url)
         if hasattr(feed, "entries"):
