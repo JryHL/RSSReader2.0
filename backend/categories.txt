@@ -1,0 +1,25 @@
+# Regions
+East Asia
+South Asia
+Southeast Asia
+West Asia
+Middle East
+Eastern Europe
+Western Europe
+Northern Europe
+Southern Europe
+Africa
+Oceania
+North America
+Central America
+South America
+
+# Topics
+Politics
+Technology
+Business and Economics
+Science
+Sports
+Education
+Culture
+Video Games
