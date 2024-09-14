@@ -45,6 +45,7 @@ def del_source():
 
 @app.get("/sources")
 def get_sources():
+    print("Get sources request received")
     myList = []
     for s in persistence.sourceList:
         myList.append(source_to_json(s))

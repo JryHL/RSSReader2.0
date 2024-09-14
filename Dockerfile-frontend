@@ -1,0 +1,5 @@
+FROM node:20.9.0
+WORKDIR /app/frontend/vue-project
+COPY frontend/vue-project/package*.json .
+RUN npm install
+CMD npm run dev -- --host 0.0.0.0 --port 5173
