@@ -7,6 +7,8 @@ services:
     volumes:
       - .:/app
       - /app/.venv/
+    environment:
+      - PYTHONUNBUFFERED=1
   frontend:
     build:
       dockerfile: ./Dockerfile-frontend

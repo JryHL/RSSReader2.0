@@ -61,8 +61,8 @@ class Source:
                 summaryHTML = getattr(e, "description", "")
                 soup = BeautifulSoup(summaryHTML, "html.parser")
                 summary = soup.text
-                timetuple = getattr(e, "published_published", datetime.datetime.today().timetuple())
-                s = Story(lastStoryID, url, title, timetuple, summary, self)
+                timetuple = getattr(e, "published_parsed", datetime.datetime.today().timetuple())
+                s = Story(id, url, title, timetuple, summary, self)
                 self.stories.append(s)
         return self.stories
                 
