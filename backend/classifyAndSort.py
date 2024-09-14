@@ -10,7 +10,7 @@ INERTIA_FAILURE_TOLERANCE = 2
 def generateCategoryName(stories: list[Story]):
     sentences = []
     for s in stories:
-        sentences.append(f"{s.title} {s.summary}")
+        sentences.append(f"{s.title}")
     return encodeSentence.findClosestCategory(sentences)
 
 def classifyStories(stories: list[Story]):
