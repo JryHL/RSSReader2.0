@@ -10,7 +10,7 @@ import StoryDisplay from '@/components/StoryDisplay.vue';
             <StoryDisplay v-for="(st, index) in showMore ? stories.slice(1) : stories.slice(1,4)" :key="st.id" :story="st" :index="index + 1"/>
         </TransitionGroup>
     </div>
-    <button @click="showMore = !showMore"> {{ showMore ? "Collapse" : "Show more"}} </button>
+    <button v-if="stories.length > 4" @click="showMore = !showMore"> {{ showMore ? "Collapse" : "Show more"}} </button>
 </template>
 
 <script>

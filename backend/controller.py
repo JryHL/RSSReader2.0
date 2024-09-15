@@ -32,8 +32,11 @@ def getAllStories():
         t = threading.Thread(target=fetchStories, args=[s])
         t.start()
         threadsUsed.append(t)
+    threadsLeft = len(threadsUsed)
     for t in threadsUsed:
         t.join()
+        threadsLeft -= 1
+        print(f"{threadsLeft} threads left")
 
 def fetchStories(s: Source):
     print(f"Fetching {s.name} in thread {threading.get_ident()}")

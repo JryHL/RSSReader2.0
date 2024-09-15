@@ -4,14 +4,14 @@ from models.feed import *
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 
-INERTIA_CHANGE_THRESHOLD = 0.98
+INERTIA_CHANGE_THRESHOLD = 0.93 
 INERTIA_FAILURE_TOLERANCE = 2
 
 def generateCategoryName(stories: list[Story]):
     sentences = []
     for s in stories:
-        sentences.append(f"{s.title}")
-    return encodeSentence.findClosestCategory(sentences)
+        sentences.append(f"{s.title} {s.summary}")
+    return encodeSentence.findClosestCategory(sentences, stories)
 
 def classifyStories(stories: list[Story]):
     if len(stories) == 0:
@@ -29,7 +29,7 @@ def classifyStories(stories: list[Story]):
     # Detect when change from last inertia is below certain threshold
     lastInertia = -1
     numFails = 0
-    for i in range(1, len(reduced_embeddings)): 
+    for i in range(1, max(math.ceil(len(reduced_embeddings)/2), 2)): 
         kmeans = KMeans(n_clusters=i)
         kmeans.fit(reduced_embeddings)
         print(kmeans.inertia_)
@@ -54,9 +54,6 @@ def classifyStories(stories: list[Story]):
             categories[label].append(story)
         else:
             categories[label] = [story]
-    
-    # Rank stories
-    for c in categories.values():
-        c.sort(key=(lambda x: x.rank), reverse=True)
+
     
     return categories.items()

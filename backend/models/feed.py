@@ -4,7 +4,8 @@ import datetime
 import time
 
 FETCH_INTERVAL_MINUTES = 10
-RECENCY_WEIGHT = 0.1
+RECENCY_WEIGHT = 1
+MAX_ENTRIES_PER_SOURCE = 10
 lastStoryID = 0
 
 class Story:
@@ -46,14 +47,15 @@ class Source:
         global lastStoryID
         currTime = time.time()
         if (currTime - self.lastFetchTime < FETCH_INTERVAL_MINUTES * 60):
-            print(f"{self.name} was not fetched because it last fetched {(currTime - self.lastFetchTime) / 60} minutes ago")
+            print(f"{self.name} was not fetched because it was last fetched {(currTime - self.lastFetchTime) / 60} minutes ago")
             return self.stories
-        self.lastFetchTime = currTime
+        
         
         self.stories = []
         feed = feedparser.parse(self.url)
+        self.lastFetchTime = currTime
         if hasattr(feed, "entries"):
-            for e in feed.entries:
+            for e in feed.entries[0:MAX_ENTRIES_PER_SOURCE]:
                 lastStoryID += 1
                 id = lastStoryID
                 title = getattr(e, "title", "")

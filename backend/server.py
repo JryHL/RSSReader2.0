@@ -65,6 +65,9 @@ def fetch_all_stories():
     for idx, c in enumerate(categories):
         clist = []
         stories = c[1]
+
+        # Sort stories by rank value, bigger is better
+        stories.sort(key=(lambda x: x.rank), reverse=True)
         for s in stories:
             clist.append(story_to_json(s))
         myList.append(clist)

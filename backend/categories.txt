@@ -1,6 +1,4 @@
 Politics
-Elections
-Debate
 Disasters
 Sports
 Entertainment
@@ -13,4 +11,5 @@ Life and relationships
 Fact check
 Business
 Economy
-Armed conflict
+War
+Health
