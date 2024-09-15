@@ -1,7 +1,7 @@
 
 <template>
     <div :class="`story-box ${smallClass}`">
-        <a :href="story.url" target="_blank"  class="story-title"><h2>{{ story.title }}</h2></a>
+        <a :href="story.url" target="_blank"  class="story-title"><h3>{{ story.title }}</h3></a>
         <div class="details">
             <img class="story-favicon" :src="`https://www.google.com/s2/favicons?domain=${story?.base_domain}`"/>
             <div class="emphasis">{{ story.source }}</div>
@@ -30,22 +30,34 @@
 .story-box {
     display: flex;
     flex-direction: column;
-    border-width: 1px;
-    border-color: var(--gray-color);
-    border-style: solid;
     padding: 1em;
+
 
     .story-title {
         color: var(--dark-color);
         text-decoration: none;
     }
 
+    .story-title h3 {
+        font-size: 1.6em;
+        margin-top: 0.4em;
+        margin-bottom: 0.2em;
+    }
     .story-favicon {
         width: 1em;
+        height: 1em;
     }
 
     .story-title:hover {
         color: var(--dark-gray-color);
+    }
+
+    .details {
+        display: flex;
+        column-gap: 0.5em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
 }
@@ -58,7 +70,6 @@
 }
 
 .small {
-    font-size: 0.8em;
     padding-bottom: 0em;
     padding-top: 0em;
     border-style: none;
@@ -67,14 +78,11 @@
     .summary {
         display: none;
     }
-    .details {
-        display: flex;
-        column-gap: 0.5em;
-    }
 
-    .story-title h2 {
-        margin-top: 0.4em;
-        margin-bottom: 0.2em;
+
+    .story-title h3 {
+
+        font-size: 1.1em;
     }
 }
 
