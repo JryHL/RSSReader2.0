@@ -12,6 +12,7 @@
 
 body {
     background-color: var(--light-color);
+    margin: 0;
 }
 
 h1, h2, h3  {
@@ -40,4 +41,8 @@ button {
 
 button:hover {
     background-color: var(--accent-color-dark);
+}
+
+main {
+    padding-top: 3em;
 }

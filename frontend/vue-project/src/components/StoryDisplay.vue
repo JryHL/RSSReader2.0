@@ -8,6 +8,9 @@
             <div>{{ story.date }}</div>
             <div class="summary">{{story.summary}}</div>
         </div>
+        <div class="alt-viewers">
+            <a :href="`https://archive.today/latest/${story.url}`" target="_blank">View archived</a>
+        </div>
     </div>
 </template>
 

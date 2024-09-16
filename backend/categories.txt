@@ -1,15 +1,10 @@
-Politics
-Disasters
-Sports
-Entertainment
-Gaming
-Science
-Technology
-Crime
-Sex
-Life and relationships
-Fact check
-Business
-Economy
+# Overarching topics
+Geopolitics
 War
+Human Rights
+Elections
+Film and Television
+Video Gaming
 Health
+Crime
+Science
