@@ -43,8 +43,17 @@ def fetchStories(s: Source):
     stories = s.fetch()
     allStories.extend(stories)
 
+def categoryRank(category):
+    totalRank = 0
+    for s in category[1]:
+        totalRank += s.rank
+    return totalRank
+
+
 def getCategorizedStories():
-    categories = classifyAndSort.classifyStories(allStories)
+    categories = list(classifyAndSort.classifyStories(allStories))
+    # Sort by total story rank to capture number of stories, recency, and coherence of category
+    categories.sort(key=categoryRank, reverse=True)
     return categories
 
 def getCategoryLabels(categories: list):

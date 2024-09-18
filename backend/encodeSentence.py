@@ -12,7 +12,7 @@ nltk.download("punkt_tab")
 STOPWORDS = set(stopwords.words("english"))
 STOPWORDS.update([",", ".", "!", "-", "—", "?", ";", "'", "\""])
 model = SentenceTransformer("all-MiniLM-L6-v2")
-PREEXISTING_CATEGORY_PREFERENCE = 2
+PREEXISTING_CATEGORY_PREFERENCE = 1.7
 SIMILARITY_RANKING_EFFECT = 50
 
 def sentenceToEmbedding(sentence: str) -> list:
@@ -69,7 +69,6 @@ def findClosestCategory(sentences: list[str], stories: list[Story]) -> str:
         similaritiesToUse = None
         category_label = ""
         catMaxIdx = -1
-        # prefer predefined categories due to frequent problems with dynamic categories requiring strong proof that the category label fits
         if pCatMax * PREEXISTING_CATEGORY_PREFERENCE > dCatMax:
             category_label = preexistingCategoryList[mostCommonPreexistingCategoryIdx]
             similaritiesToUse = preexistingCategorySimilarities
