@@ -4,6 +4,8 @@ import classifyAndSort
 import threading
 from models.feed import Source, Story
 
+# Number of stories per page
+PAGE_SIZE = 50
 allStories = []
 
 def addSource(url, name):
@@ -26,7 +28,7 @@ def delSource(id):
 
 def getAllStories():
     global allStories
-    allStories = []
+    allStories = [] # Note: Sources themselves keep cache of stories that is not cleared here
     threadsUsed = []
     for idx, s in enumerate(persistence.sourceList):
         t = threading.Thread(target=fetchStories, args=[s])
@@ -37,6 +39,12 @@ def getAllStories():
         t.join()
         threadsLeft -= 1
         print(f"{threadsLeft} threads left")
+    # Sort stories by pre-categorization rank (time alone) 
+    # So that latest stories are displayed first
+    # When paging through stories
+    # Stories are not resorted when their ranks are changed
+    # later on based on their category label, so no effect on paging
+    allStories.sort(key=lambda x: x.rank, reverse=True)
 
 def fetchStories(s: Source):
     print(f"Fetching {s.name} in thread {threading.get_ident()}")
@@ -50,8 +58,10 @@ def categoryRank(category):
     return totalRank
 
 
-def getCategorizedStories():
-    categories = list(classifyAndSort.classifyStories(allStories))
+def getCategorizedStories(page):
+    storiesOnPage = allStories[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
+
+    categories = list(classifyAndSort.classifyStories(storiesOnPage))
     # Sort by total story rank to capture number of stories, recency, and coherence of category
     categories.sort(key=categoryRank, reverse=True)
     return categories

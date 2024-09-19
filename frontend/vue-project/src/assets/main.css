@@ -43,6 +43,9 @@ button:hover {
     background-color: var(--accent-color-dark);
 }
 
+button:disabled {
+    background-color: var(--dark-gray-color);
+}   
 main {
     padding-top: 3em;
 }

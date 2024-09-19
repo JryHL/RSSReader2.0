@@ -4,7 +4,7 @@ from models.feed import *
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 
-INERTIA_CHANGE_THRESHOLD = 0.99
+INERTIA_CHANGE_THRESHOLD = 0.95
 INERTIA_FAILURE_TOLERANCE = 2
 
 def generateCategoryName(stories: list[Story]):

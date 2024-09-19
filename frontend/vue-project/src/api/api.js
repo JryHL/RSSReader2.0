@@ -29,8 +29,14 @@ export const delSource = async (id) => {
     return res;
 }
 
-export const getStories = async () => {
-    const res = await axiosInstance.get("stories/all");
+export const getStories = async (page) => {
+    const res = await axiosInstance.get("stories", 
+        {
+            params: {
+                page_number: page
+            }
+        }
+    );
     res?.data?.stories.map((item) => item.summary = sanitize(item.summary));
     return res?.data;
 }
