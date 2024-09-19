@@ -4,9 +4,12 @@ import classifyAndSort
 import threading
 from models.feed import Source, Story
 import random
+import encodeSentence
 
 # Number of stories per page
 PAGE_SIZE = 50
+SEARCH_QUERY_WEIGHT = 500
+EXACT_WORDS_WEIGHT = 100000
 allStories = []
 
 def addSource(url, name):
@@ -47,6 +50,8 @@ def getAllStories():
     # When paging through stories
     # Stories are not resorted when their ranks are changed
     # later on based on their category label, so no effect on paging
+    for s in allStories:
+        s.rank = s.baseRank
     allStories.sort(key=lambda x: x.rank, reverse=True)
 
 def fetchStories(s: Source):
@@ -60,10 +65,25 @@ def categoryRank(category):
         totalRank += s.rank
     return totalRank
 
+            
+def getCategorizedStories(page, searchQuery):
 
-def getCategorizedStories(page):
+    queryEmbed = None
+    if len(searchQuery):
+        queryEmbed = encodeSentence.model.encode(searchQuery)
+        if page == 0:
+            for s in allStories:
+                s.embedding = encodeSentence.sentenceToEmbedding(s.title)
+                similarity = encodeSentence.model.similarity(s.embedding, queryEmbed).item()
+                s.rank += similarity * SEARCH_QUERY_WEIGHT
+                if searchQuery in s.title:
+                    s.rank += EXACT_WORDS_WEIGHT
     storiesOnPage = allStories[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
-
+    # if no search query, embedding has already been obtained in previous stage
+    if not len(searchQuery):
+        for s in storiesOnPage:
+            if type(s.embedding) == type(None):
+                s.embedding = encodeSentence.sentenceToEmbedding(s.title)
     categories = list(classifyAndSort.classifyStories(storiesOnPage))
     # Sort by total story rank to capture number of stories, recency, and coherence of category
     categories.sort(key=categoryRank, reverse=True)

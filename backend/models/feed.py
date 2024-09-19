@@ -2,6 +2,7 @@ import feedparser
 from bs4 import BeautifulSoup
 import datetime
 import time
+import encodeSentence
 
 FETCH_INTERVAL_MINUTES = 10
 RECENCY_WEIGHT = 1
@@ -32,8 +33,10 @@ class Story:
        
         self.timetuple = timetuple
         self.date = time.strftime("%a. %b. %-d, %Y at %I:%M %p", timetuple)
-        self.rank = self.selfRank(timetuple)
+        self.baseRank = self.selfRank(timetuple)
+        self.rank = self.baseRank
         self.source = source
+        self.embedding = None
 
 
 class Source:

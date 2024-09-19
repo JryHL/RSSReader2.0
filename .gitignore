@@ -2,3 +2,5 @@ venv
 data.db
 __pycache__
 node_modules
+backend/core.7
+backend/*.bak

@@ -5,6 +5,8 @@ import { getStories } from '@/api/api';
 
 <template>
   <main>
+    <input type="text" placeholder="Search" v-if="!loading" v-model="searchQuery"/>
+    <button @click="searchWithQuery" v-if="!loading"> Search </button>
     <div v-for="(stories, index) in categories" :key="stories[0]?.id || -1">
       <StoryCard :stories="stories" :label="categoryLabels[index]"/>
     </div>
@@ -19,7 +21,8 @@ export default {
       categories: [],
       categoryLabels: [],
       pageNumber: 0,
-      loading: false
+      loading: false,
+      searchQuery: ""
     }
   },
   created() {
@@ -28,11 +31,18 @@ export default {
   methods: {
     async fetchStoriesFromAPI() {
       this.loading = true;
-      const result = await getStories(this.pageNumber);
+      const result = await getStories(this.pageNumber, this.searchQuery);
       this.categories.push(...result.stories);
       this.categoryLabels.push(...result.labels);
       this.pageNumber += 1
       this.loading = false;
+    },
+    searchWithQuery() {
+      // Reset page number, categories due to new search
+      this.pageNumber = 0;
+      this.categories = [];
+      this.categoryLabels = [];
+      this.fetchStoriesFromAPI();
     }
   }
 }

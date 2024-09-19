@@ -56,12 +56,13 @@ def get_sources():
 @app.get("/stories")
 def fetch_all_stories():
     page_number = int(request.args.get("page_number"))
+    search_query = request.args.get("search_query", default="")
     print("Fetching all stories...")
     if page_number == 0: 
         controller.getAllStories()
     myList = []
     print("Categorizing stories...")
-    categories = controller.getCategorizedStories(page_number)
+    categories = controller.getCategorizedStories(page_number, search_query)
     print("Generating labels for categories...")
     labels = controller.getCategoryLabels(categories)
     for idx, c in enumerate(categories):

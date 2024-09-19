@@ -29,11 +29,12 @@ export const delSource = async (id) => {
     return res;
 }
 
-export const getStories = async (page) => {
+export const getStories = async (page, searchQuery) => {
     const res = await axiosInstance.get("stories", 
         {
             params: {
-                page_number: page
+                page_number: page,
+                search_query: searchQuery
             }
         }
     );
