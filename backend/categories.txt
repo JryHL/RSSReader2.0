@@ -3,8 +3,23 @@ Geopolitics
 War
 Human Rights
 Elections
+Politics
 Film and Television
 Video Gaming
 Health
 Crime
 Science
+Religion
+Economy
+Business
+# Regions
+East Asia
+South Asia
+Southeast Asia
+West Asia
+Europe
+Africa
+Middle East
+Oceania
+North America
+South America

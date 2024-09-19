@@ -3,6 +3,7 @@ import time
 import classifyAndSort
 import threading
 from models.feed import Source, Story
+import random
 
 # Number of stories per page
 PAGE_SIZE = 50
@@ -39,6 +40,8 @@ def getAllStories():
         t.join()
         threadsLeft -= 1
         print(f"{threadsLeft} threads left")
+    # random.shuffle(allStories)
+    
     # Sort stories by pre-categorization rank (time alone) 
     # So that latest stories are displayed first
     # When paging through stories

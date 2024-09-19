@@ -66,5 +66,7 @@ class Source:
                 timetuple = getattr(e, "published_parsed", datetime.datetime.today().timetuple())
                 s = Story(id, url, title, timetuple, summary, self)
                 self.stories.append(s)
+        if len(self.stories) == 0:
+            print(f"No stories found for {self.name}!")
         return self.stories
                 
