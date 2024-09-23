@@ -10,6 +10,7 @@ import encodeSentence
 PAGE_SIZE = 50
 SEARCH_QUERY_WEIGHT = 500
 EXACT_WORDS_WEIGHT = 100000
+SIMILARITY_THRESHOLD = 0.7
 allStories = []
 
 def addSource(url, name):
@@ -67,17 +68,24 @@ def categoryRank(category):
 
             
 def getCategorizedStories(page, searchQuery):
-
+    global allStories
     queryEmbed = None
+    myStories = []
     if len(searchQuery):
         queryEmbed = encodeSentence.model.encode(searchQuery)
         if page == 0:
             for s in allStories:
                 s.embedding = encodeSentence.sentenceToEmbedding(s.title)
                 similarity = encodeSentence.model.similarity(s.embedding, queryEmbed).item()
-                s.rank += similarity * SEARCH_QUERY_WEIGHT
-                if searchQuery in s.title:
-                    s.rank += EXACT_WORDS_WEIGHT
+                # Do not index 
+                if similarity > SIMILARITY_THRESHOLD or (searchQuery in s.title) or (searchQuery in s.source.name) or (searchQuery in s.summary):
+                    s.rank += similarity * SEARCH_QUERY_WEIGHT
+                    if searchQuery in s.title:
+                        s.rank += EXACT_WORDS_WEIGHT
+                    myStories.append(s)
+                else:
+                    continue
+            allStories = myStories
     storiesOnPage = allStories[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
     # if no search query, embedding has already been obtained in previous stage
     if not len(searchQuery):
