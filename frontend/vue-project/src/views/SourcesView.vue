@@ -3,12 +3,13 @@ import SourceDisplay from '@/components/SourceDisplay.vue';
 import { getSources, addSource } from '@/api/api';
 </script>
 <template>
-    <main>
+    <main class="add-source-main">
         <h2>Add source</h2>
-
-        <input type="text" placeholder="Source name" v-model="addSourceName"/>
-        <input type="url" placeholder="Source URL" v-model="addSourceURL"/>
-        <button @click="addSourceToBackend" >Add</button>
+        <div class="add-source-form">
+            <input type="text" placeholder="Source name" v-model="addSourceName"/>
+            <input type="url" placeholder="Source URL" v-model="addSourceURL"/>
+            <button @click="addSourceToBackend" >Add</button>
+        </div>
         <h2>Your Sources</h2>
         <div>
             <SourceDisplay v-for="s in sources.slice().reverse()" :key="s.id" :source="s" @delete-source="refresh"/>
@@ -52,3 +53,15 @@ export default {
 
 }
 </script>
+
+<style>
+
+.add-source-main {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.add-source-form {
+    display: flex;
+    gap: 0.3em;
+}
+</style>

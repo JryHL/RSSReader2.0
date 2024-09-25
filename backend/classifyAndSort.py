@@ -103,7 +103,7 @@ def classifyStories(stories: list[Story]):
     for s in stories:
         embeddings.append(s.embedding)
     
-    pca = PCA(n_components=8)
+    pca = PCA(n_components=min(8, len(stories)))
     reduced_embeddings = pca.fit_transform(embeddings)
     # reduced_embeddings = embeddings
     kmeans = None
