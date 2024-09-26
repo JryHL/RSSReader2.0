@@ -5,12 +5,17 @@ import threading
 from models.feed import Source, Story
 import random
 import encodeSentence
+import numpy as np
 
 # Number of stories per page
 PAGE_SIZE = 50
 SEARCH_QUERY_WEIGHT = 500
 EXACT_WORDS_WEIGHT = 100000
 SIMILARITY_THRESHOLD = 0.4
+IMPORTANT_KEYWORDS = ["Disaster", "Emergency", "Alert", "Crisis", "Advisory", "Warning"]
+IMPORTANT_KEYWORD_EMBEDDINGS = encodeSentence.model.encode(IMPORTANT_KEYWORDS)
+STORY_IMPORTANCE_MULTIPLIER = 10
+
 allStories = []
 
 def addSource(url, name):
@@ -66,16 +71,23 @@ def categoryRank(category):
         totalRank += s.rank
     return totalRank
 
-            
+def getStoryImportance(s: Story) -> float:  
+    similarities = encodeSentence.model.similarity(s.embedding, IMPORTANT_KEYWORD_EMBEDDINGS).numpy()
+    similaritySum = np.sum(similarities) / len(IMPORTANT_KEYWORDS)
+    return similaritySum * STORY_IMPORTANCE_MULTIPLIER
+
 def getCategorizedStories(page, searchQuery):
     global allStories
     queryEmbed = None
     myStories = []
+    if page == 0:
+        for s in allStories:
+            s.embedding = encodeSentence.sentenceToEmbedding(s.title)
+            s.rank += getStoryImportance(s)
     if len(searchQuery):
         queryEmbed = encodeSentence.model.encode(searchQuery)
         if page == 0:
             for s in allStories:
-                s.embedding = encodeSentence.sentenceToEmbedding(s.title)
                 similarity = encodeSentence.model.similarity(s.embedding, queryEmbed).item()
                 # Stories must either have high semantic similarity or contain the search string 
                 if similarity > SIMILARITY_THRESHOLD or (searchQuery in s.title) or (searchQuery in s.source.name) or (searchQuery in s.summary):
@@ -87,11 +99,6 @@ def getCategorizedStories(page, searchQuery):
                     continue
             allStories = myStories
     storiesOnPage = allStories[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
-    # if no search query, embedding has already been obtained in previous stage
-    if not len(searchQuery):
-        for s in storiesOnPage:
-            if type(s.embedding) == type(None):
-                s.embedding = encodeSentence.sentenceToEmbedding(s.title)
     categories = list(classifyAndSort.classifyStories(storiesOnPage))
     # Sort by total story rank to capture number of stories, recency, and coherence of category
     categories.sort(key=categoryRank, reverse=True)

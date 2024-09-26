@@ -1,9 +1,11 @@
 
 <template>
-    <div>
+    <div class="source-card-wrap">
+        <div>
         <h3>{{ source.name }}</h3>
         <div>{{ source.url }}</div>
-        <button @click="deleteSource">Delete</button>
+        </div>
+        <button class="button-delete-source" @click="deleteSource"> <i class="bi bi-trash"></i> Delete</button>
     </div>
 </template>
 
@@ -21,3 +23,24 @@
         }
     }
 </script>
+
+<style>
+.source-card-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-width: 1px;
+    border-color: var(--gray-color);
+    border-style: solid;
+    padding: 1em;
+    margin-bottom: 0.75em;
+    box-shadow: 0px 3px 5px var(--gray-color);
+    h3 {
+        margin: 0;
+    }
+}
+.button-delete-source {
+    height: 50%;
+    align-self: center;
+}
+</style>

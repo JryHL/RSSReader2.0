@@ -98,7 +98,7 @@ def generateCategoryName(stories: list[Story]):
 
 def classifyStories(stories: list[Story]):
     if len(stories) == 0:
-        return [(-1, [])]
+        return []
     embeddings = []
     for s in stories:
         embeddings.append(s.embedding)

@@ -8,7 +8,7 @@ import { getSources, addSource } from '@/api/api';
         <div class="add-source-form">
             <input type="text" placeholder="Source name" v-model="addSourceName"/>
             <input type="url" placeholder="Source URL" v-model="addSourceURL"/>
-            <button @click="addSourceToBackend" >Add</button>
+            <button :disabled="loading" @click="addSourceToBackend" ><i class="bi bi-plus"></i>Add</button>
         </div>
         <h2>Your Sources</h2>
         <div>
@@ -26,7 +26,8 @@ export default {
         return {
             sources: [],
             addSourceURL: "",
-            addSourceName: ""
+            addSourceName: "",
+            loading: false
         }
     },
     created() {
@@ -42,12 +43,14 @@ export default {
 
         },
         async addSourceToBackend() {
+            this.loading = true;
             let res = await addSource(this.addSourceName, this.addSourceURL);
             if (res) {
                 this.fetchSourcesFromAPI();
                 this.addSourceName = "";
                 this.addSourceURL = "";
             }
+            this.loading = false;
         }
     }
 
@@ -57,8 +60,8 @@ export default {
 <style>
 
 .add-source-main {
-    padding-left: 1em;
-    padding-right: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 .add-source-form {
     display: flex;
