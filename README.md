@@ -10,6 +10,8 @@ The image below shows how the user interface looks. Note how the stories are rel
 
 ![alt text](Interface-screenshot.png)
 
+This project succeeds a similar [previous project](https://github.com/JryHL/RSSReader) of mine. It improves on the performance with better utilization of threading and the splitting of stories into multiple pages. It also improves on the categorization and ranking logic by using vector embeddings and KMeans for semantic similarity.
+
 ## How to use
 
 1. Use `git clone` to download the contents of this repository to your computer.
