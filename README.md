@@ -6,9 +6,11 @@ RSS readers allow you to curate your own news and blog reading experience by cho
 
 This Smart RSS Reader addesses these flaws by intelligently grouping and ranking stories. It does so on the device hosting the web app; plus, with the help of threading, caching, and splitting stories into pages, it does so fairly quickly. It also allows you to search for stories intelligently, factoring in both keywords and semantic similarity.
 
-The image below shows how the user interface looks. Note how the stories are related to the search term ("AI") and stories related to OpenAI are grouped together.  
 
-![alt text](Interface-screenshot.png)
+<figure>
+<img src="Interface-screenshot.png" width="300"/>
+<figcaption>A screenshot of the user interface. Note that (1) the stories are related to the search term ("AI") and (2) stories related to OpenAI are grouped together.  </figcaption>
+</figure>
 
 This project succeeds a similar [previous project](https://github.com/JryHL/RSSReader) of mine. It improves on the performance with better utilization of threading and the splitting of stories into multiple pages. It also improves on the categorization and ranking logic by using vector embeddings and KMeans for semantic similarity.
 
