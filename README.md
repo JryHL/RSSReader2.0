@@ -17,7 +17,7 @@ This project succeeds a similar [previous project](https://github.com/JryHL/RSSR
 ## How to use
 
 1. Use `git clone` to download the contents of this repository to your computer.
-2. Ensure you have [Docker](https://docs.docker.com/desktop/) installed. 
+2. Ensure you have [Docker](https://docs.docker.com/engine/install/) installed. 
 3. Go to the root directory of this repository (the one with the docker files) and run `docker compose up --build` to launch the web application
 4. You should be able to go to `localhost:5173` 
 
