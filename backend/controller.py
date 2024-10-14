@@ -8,7 +8,7 @@ import encodeSentence
 import numpy as np
 
 # Number of stories per page
-PAGE_SIZE = 50
+PAGE_SIZE = 10000
 SEARCH_QUERY_WEIGHT = 500
 EXACT_WORDS_WEIGHT = 100000
 SIMILARITY_THRESHOLD = 0.4
@@ -39,16 +39,17 @@ def delSource(id):
 def getAllStories():
     global allStories
     allStories = [] # Note: Sources themselves keep cache of stories that is not cleared here
-    threadsUsed = []
+    # threadsUsed = []
     for idx, s in enumerate(persistence.sourceList):
-        t = threading.Thread(target=fetchStories, args=[s])
-        t.start()
-        threadsUsed.append(t)
-    threadsLeft = len(threadsUsed)
-    for t in threadsUsed:
-        t.join()
-        threadsLeft -= 1
-        print(f"{threadsLeft} threads left")
+        fetchStories(s)
+        # t = threading.Thread(target=fetchStories, args=[s])
+        # t.start()
+        # threadsUsed.append(t)
+    # threadsLeft = len(threadsUsed)
+    # for t in threadsUsed:
+    #     t.join()
+    #     threadsLeft -= 1
+    #     print(f"{threadsLeft} threads left")
     # random.shuffle(allStories)
     
     # Sort stories by pre-categorization rank (time alone) 
@@ -61,7 +62,7 @@ def getAllStories():
     allStories.sort(key=lambda x: x.rank, reverse=True)
 
 def fetchStories(s: Source):
-    print(f"Fetching {s.name} in thread {threading.get_ident()}")
+    print(f"Fetching {s.name}")
     stories = s.fetch()
     allStories.extend(stories)
 
