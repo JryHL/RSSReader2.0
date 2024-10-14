@@ -43,3 +43,17 @@ I also used caching to ensure that RSS feeds that have already been fetched in t
 
 Finally, I made sure that when many stories have been fetched, only part of the stories are shown to the user, and more stories can be found by clicking on a "Show More" button. This helps reduce the load associated with categorizing stories. The stories with the highest ranking (most recent stories) are shown first, reducing the need for subsequent clicks on "Show More". 
 
+### How much does threading and pagination improve responsiveness?
+
+I performed simple tests by adding 100 RSS feeds to the program and then timing the time required to deliver results from a cold start using the browser's inspect element tool's networking tab. I tested the enhanced program (using threading and pagination) and a version that uses a more naive method (no separate pages, sequential fetching of RSS feeds), and took the average of 3 samples.
+
+The results are as follows:
+
+| Trial | With threading (seconds) | Without threading (seconds) |
+|-------|--------------------------|-----------------------------|
+| 1     | 30.44                    | 170.4                       |
+| 2     | 30.42                    | 163.8                       |
+| 3     | 30.87                    | 169.2                       |
+| Avg   | 30.58                    | 167.8                       |
+
+This means that the average time required has been cut down by 81.77%. 
